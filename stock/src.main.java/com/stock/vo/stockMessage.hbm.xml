@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.stock.vo.StockMessage" table="stockmessage">
+        <id name="stockId" type="java.lang.Integer">
+            <column name="stockid" />
+            <generator class="identity" />
+        </id>
+        <property name="stockName" type="java.lang.String">
+            <column name="stockname" length="40" />
+        </property>
+        <property name="createTime" type="java.util.Date">
+            <column name="createtime" length="100" />
+        </property>
+    </class>
+</hibernate-mapping>

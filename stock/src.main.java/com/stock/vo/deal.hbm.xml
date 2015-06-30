@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.stock.vo.Deal" table="deal">
+        <id name="dealId" type="java.lang.Integer">
+        	<column name="dealid" length="11"/>
+        	<generator class="identity" />
+        </id>
+        <property name="code" type="java.lang.String">
+            <column name="code" length="20" />
+        </property>
+        <property name="open" type="java.lang.Float">
+            <column name="open" length="20" />
+        </property>
+        <property name="close" type="java.lang.Float">
+            <column name="close" length="20" />
+        </property>
+        <property name="high" type="java.lang.Float">
+            <column name="high" length="20" />
+        </property>
+        <property name="low" type="java.lang.Float">
+            <column name="low" length="20" />
+        </property>
+        <property name="volume" type="java.lang.Float">
+            <column name="volume" length="20" />
+        </property>
+        <property name="turnover" type="java.lang.Float">
+            <column name="turnover" length="20" />
+        </property>
+        <property name="capitalization" type="java.lang.Float">
+            <column name="capitalization" length="20" />
+        </property>
+        <property name="date" type="java.util.Date">
+            <column name="date"  />
+        </property>
+    </class>
+</hibernate-mapping>

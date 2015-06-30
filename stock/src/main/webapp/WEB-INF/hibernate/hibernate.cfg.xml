@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-configuration PUBLIC
+
+"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+
+"http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+
+<session-factory>
+
+        <!-- 显示实际操作数据库时的SQL -->
+
+        <property name="show_sql">true</property>
+
+        <!-- SQL方言，这边设定的是MySQL -->
+
+        <property name="dialect">net.sf.hibernate.dialect.MySQLDialect</property>
+
+        <!--驱动程序，在后续的章节中将讲述mysql、sqlserver和Oracle数据库的配置 -->
+
+        <property name="connection.driver_class">${driverClass}</property>
+
+        <!-- JDBC URL -->
+
+        <property name="connection.url">${jdbcUrl}</property>
+
+        <!-- 数据库用户名 -->
+
+        <property name="connection.username">${user}</property>
+
+        <!-- 数据库密码 -->
+
+        <property name="connection.password">${password}</property>
+
+        <property name="c3p0.min_size">${minPoolSize}</property>
+
+        <property name="c3p0.max_size">${maxPoolSize}</property>
+
+        <property name="c3p0.timeout">${maxIdleTime}</property>
+
+        <property name="c3p0.max_statements">${maxStatements}</property>
+
+        <!-- 对象与数据库表格映像文件 -->
+
+       <mapping resource="com/stock/vo/stockMessage.hbm.xml"/>
+
+
+    </session-factory>
+
+</hibernate-configuration>
