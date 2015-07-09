@@ -67,4 +67,12 @@ public class DealServiceTest {
 	public void findByIdTest(){
 		dealService.findById(3);
 	}
+	
+	@Test 
+	public void addDealTest(){
+		deal.setCode("600004");
+		deal.setDate(new Date());
+		dealService.addDeal(deal);
+	}
+
 }

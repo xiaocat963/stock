@@ -21,6 +21,7 @@
     
     <mvc:resources location="/css/" mapping="/css/**"/>
 	<mvc:resources location="/js/" mapping="/js/**"/>
+	<mvc:resources location="/images/" mapping="/images/**"/>
 	
 	<context:property-placeholder location="classpath:hibernate.properties" />
 	<bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
@@ -65,8 +66,8 @@
     <tx:advice id="txAdvice" transaction-manager="txManager">
         <tx:attributes>
             <tx:method name="save*" propagation="REQUIRED" />
+            <tx:method name="add*" propagation="REQUIRED" />
             <tx:method name="update*" propagation="REQUIRED" />
-            <tx:method name="delete*" propagation="REQUIRED"/>
             <tx:method name="find*" read-only="true" />
         </tx:attributes>
     </tx:advice>
@@ -79,4 +80,11 @@
     </aop:config>
 
 	<tx:annotation-driven transaction-manager="txManager"/>
+	
+	<bean id="multipartResolver"  class="org.springframework.web.multipart.commons.CommonsMultipartResolver">  
+	    <!-- 设置上传文件的最大尺寸为1MB -->  
+	    <property name="maxUploadSize">  
+	        <value>1048576</value>  
+	    </property>  
+	</bean>
 </beans>

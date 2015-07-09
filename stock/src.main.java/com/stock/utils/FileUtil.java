@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -21,10 +22,14 @@ import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 
 public class FileUtil {
 	public static String[][] getData(File file, int ignoreRows)
-			throws FileNotFoundException, IOException {
+			throws Exception {
+		return getData(new FileInputStream(file), ignoreRows);
+	}
+	
+	public static String[][] getData(InputStream inputStream, int ignoreRows) throws Exception{
 		List<String[]> result = new ArrayList<String[]>();
 		int rowSize = 0;
-		BufferedInputStream in = new BufferedInputStream(new FileInputStream(file));
+		BufferedInputStream in = new BufferedInputStream(inputStream);
 		// ´ò¿ªHSSFWorkbook
 		POIFSFileSystem fs = new POIFSFileSystem(in);
 		HSSFWorkbook wb = new HSSFWorkbook(fs);
