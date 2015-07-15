@@ -15,6 +15,10 @@
 		gender:<input type="radio" value="m" name="gender" checked="checked"/>man <input type="radio" value="w" name="gender"/>woman<br/>
 		<input id="save" type="button" value="submit">
 	</form>
+	<div>
+		<input type="button" id="createA" value="生成a标签"/>
+		<div id="aDiv"></div>
+	</div>
 </body>
 <script type="text/javascript">
 	$(function(){
@@ -33,6 +37,22 @@
 				},
 				error: function(data){
 					alert(data.info);
+				}
+			});
+		});
+		
+		$("#createA").on("click", function(){
+			$.ajax({
+				url: "${pageContext.request.contextPath }/createA",
+				method: "POST",
+				data: {
+				},
+				dataType: "text",
+				success: function(data){
+					$("#aDiv").html(data);
+				},
+				error: function(data){
+					alert(data);
 				}
 			});
 		});

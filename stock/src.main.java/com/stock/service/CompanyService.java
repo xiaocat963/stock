@@ -9,9 +9,9 @@ public interface CompanyService extends BaseService<Company>{
 	 
 	public int findCountByCodeAndName(String code, String name);
 	
-	public List<Company> findAll();
+	public Company findByCode(String code);
 	
-	public int findCountAll();
+	public List<Company> findByName(String name);
 	
-	public List<Company> findAllByPage(int pageNo, int pageSize);
+	public void deleteBatch(Integer[] ids);
 }

@@ -16,18 +16,22 @@ import org.apache.commons.httpclient.HttpException;
 import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.params.HttpMethodParams;
+import org.springframework.stereotype.Service;
 
 import com.stock.dao.CompanyDao;
 import com.stock.dao.DealDao;
+import com.stock.service.DealService;
 import com.stock.service.SpiderService;
 import com.stock.vo.Company;
 import com.stock.vo.Deal;
 
+@Service("spiderServiceDailyImpl")
 public class SpiderServiceDailyImpl implements SpiderService {
 	String url = "http://hq.sinajs.cn/list=sh";
 
-	private DealDao dealDao;
-	@Resource(name = "dealDao")
+	@Resource(name="dealService")
+	private DealService dealService;
+	
 	@Override
 	public String getPageStr(String companyCode) {
 		String urlStr = url + companyCode;
@@ -122,7 +126,7 @@ public class SpiderServiceDailyImpl implements SpiderService {
 		for(Deal deal: dealList)
 		{
 			if(deal != null)
-				dealDao.save(deal);
+				dealService.addDeal(deal);
 		}
 		return true;
 	}

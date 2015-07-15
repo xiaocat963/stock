@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.stock.dao.BaseDao;
 import com.stock.service.BaseService;
+import com.stock.vo.QueryCriteria;
 
 @Transactional
 public class BaseServiceImpl<T> implements BaseService<T> {
@@ -45,8 +46,19 @@ public class BaseServiceImpl<T> implements BaseService<T> {
 		return baseDao.findById(id);
 	}
 
-//	@Override
-//	public List<T> findByHQL(String hql, Object... params) {
-//		return baseDao.findByHQL(hql, params);
-//	}
+	@Override
+	public List<T> findAll(QueryCriteria criteria) {
+		return baseDao.findAll(criteria);
+	}
+
+	@Override
+	public int findCountAll(QueryCriteria criteria) {
+		return baseDao.findCountAll(criteria);
+	}
+
+	@Override
+	public List<T> findAllByPage(int pageNo, int pageSize,
+			QueryCriteria criteria) {
+		return baseDao.findAllByPage(pageNo, pageSize, criteria);
+	}
 }

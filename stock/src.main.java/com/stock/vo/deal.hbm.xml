@@ -3,7 +3,7 @@
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
     <class name="com.stock.vo.Deal" table="deal">
-        <id name="dealId" type="java.lang.Integer">
+        <id name="dealId" type="java.lang.Integer" unsaved-value="null">
         	<column name="dealid" length="11"/>
         	<generator class="identity" />
         </id>

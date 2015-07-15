@@ -67,4 +67,14 @@ public class ImportController {
 		map.put("info", "success");
 		return map;
 	}
+	
+	@RequestMapping("/createA")
+	public  @ResponseBody String createA(String name, Integer age, String gender){
+		return  "<a href='"+"http://www.baidu.com"+"'>baidu</a>";
+	}
+	
+	@RequestMapping("/toAjaxDemo")
+	public  String toAjaxDemo(String name, Integer age, String gender){
+		return  "AjaxDemo";
+	}
 }

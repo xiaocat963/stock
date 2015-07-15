@@ -9,10 +9,10 @@ public interface CompanyDao extends BaseDao<Company> {
 	
 	public int findCountByNameAndCode(String code, String name);
 	
-	public List<Company> findAll();
+	public List<Company> findByCode(String code);
 	
-	public int findCountAll();
+	public List<Company> findByName(String name);
 	
-	public List<Company> findAllByPage(int pageNo, int pageSize);
+	public void batchDelete(Integer[] ids);
 
 }

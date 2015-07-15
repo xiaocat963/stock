@@ -13,4 +13,9 @@ public interface DealDao extends BaseDao<Deal>{
 	
 	public List<Deal> findByCodeAndDate(String code, Date date);
 	
+	/*public List<Deal> findAll(QueryCriteria criteria);
+	
+	public int findCountAll(QueryCriteria criteria);
+	
+	public List<Deal> findAllByPage(int pageNo, int pageSize, QueryCriteria criteria);*/
 }

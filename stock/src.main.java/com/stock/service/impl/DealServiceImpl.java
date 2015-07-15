@@ -5,20 +5,19 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
-import com.stock.dao.BaseDao;
 import com.stock.dao.DealDao;
 import com.stock.service.DealService;
 import com.stock.vo.Deal;
-import com.stock.vo.StockMessage;
+import com.stock.vo.QueryCriteria;
 
 @Service("dealService")
 public class DealServiceImpl extends BaseServiceImpl<Deal> implements DealService{
 
 	
 	private DealDao dealDao;
-	
 	@Resource(name="dealDaoImpl")
 	public void setBaseDao(DealDao dealDao) {
 		super.setBaseDao(dealDao);
@@ -40,11 +39,29 @@ public class DealServiceImpl extends BaseServiceImpl<Deal> implements DealServic
 	 */
 	@Override
 	public void addDeal(Deal deal) {
-		List<Deal> dealList = dealDao.findByCodeAndDate(deal.getCode(), deal.getDate());
-		for(Deal d : dealList){
-			dealDao.delete(d);
+		Deal d = dealDao.findByCodeAndDate(deal.getCode(), deal.getDate()).get(0);
+		if(d != null){
+			Integer dealId = d.getDealId();
+			BeanUtils.copyProperties(deal, d, Deal.class);
+			d.setDealId(dealId);
+		}else{
+			dealDao.save(deal);
 		}
-		dealDao.save(deal);
+	}
+
+	@Override
+	public List<Deal> findAll(QueryCriteria criteria) {
+		return dealDao.findAll(criteria);
+	}
+
+	@Override
+	public int findCountAll(QueryCriteria criteria) {
+		return dealDao.findCountAll(criteria);
+	}
+
+	@Override
+	public List<Deal> findAllByPage(int pageNo, int pageSize, QueryCriteria criteria) {
+		return dealDao.findAllByPage(pageNo, pageSize, criteria);
 	}
 
 }

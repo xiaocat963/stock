@@ -6,17 +6,28 @@ import java.util.List;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.web.servlet.ModelAndView;
 
+import com.stock.controller.CompanyController;
 import com.stock.vo.Company;
+import com.stock.vo.CompanyQueryCriteria;
+import com.stock.vo.QueryCriteria;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath:applicationContext.xml")
 public class CompanyServiceTest {
 	
 	@Autowired
-	CompanyService companyService;
+	private CompanyService companyService;
+	@Autowired
+	private CompanyController companyController;
+	
+	private CompanyQueryCriteria criteria;
+	
 	@Test
 	public void saveTest(){
 		
@@ -25,6 +36,8 @@ public class CompanyServiceTest {
 		company.setName("工商银行");
 		company.setStatus(1);
 		companyService.save(company);
+		
+		criteria = new CompanyQueryCriteria();
 	}
 	
 	@Test
@@ -73,23 +86,28 @@ public class CompanyServiceTest {
 	@Test
 	public void findAllTest(){
 		
-		List<Company> result = companyService.findAll();
+		List<Company> result = companyService.findAll(criteria);
 		System.out.println(result.size());
 	}
 	
 	@Test
 	public void findCountAllTest(){
 		
-		int result = companyService.findCountAll();
+		int result = companyService.findCountAll(criteria);
 		System.out.println(result);
 	}
 	
 	@Test
 	public void findAllByPageTest(){
 		
-		List<Company> result = companyService.findAllByPage(2, 5);
+		List<Company> result = companyService.findAllByPage(2, 5, criteria);
 		
 		System.out.println(result.get(4).getName());
 	}
 
+	@Test
+	public void batchDelete(){
+		Integer[] ids = new Integer[]{10,11,12};
+		companyService.deleteBatch(ids);
+	}
 }

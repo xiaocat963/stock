@@ -5,7 +5,7 @@ import java.util.Date;
 
 public class Deal {
 	
-	private int dealId;
+	private Integer dealId;
 	
 	private String code;
 	
@@ -97,11 +97,11 @@ public class Deal {
 		this.date = date;
 	}
 
-	public int getDealId() {
+	public Integer getDealId() {
 		return dealId;
 	}
 
-	public void setDealId(int dealId) {
+	public void setDealId(Integer dealId) {
 		this.dealId = dealId;
 	}
 
