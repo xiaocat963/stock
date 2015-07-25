@@ -11,6 +11,7 @@ import javax.annotation.Resource;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.stock.dao.DealDao;
@@ -24,10 +25,11 @@ public class SpiderServiceHistoryImpl implements SpiderService{
 
 	@Resource(name="dealService")
 	private DealService dealService;
-
+	@Value("${historyUrl}")  
+	private String Url;
+	
 	@Override
 	public String getPageStr(String companyCode) {
-		String Url = "http://money.finance.sina.com.cn/corp/go.php/vMS_MarketHistory/stockid/@code.phtml";
 		Url = Url.replace("@code", companyCode);
 		Document doc = null;
 		

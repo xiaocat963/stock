@@ -76,9 +76,16 @@ body {
                 <td width="94%" valign="bottom"><span class="STYLE1"> 公司基本信息列表</span></td>
               </tr>
             </table></td>
-            <td><div align="right"><span class="STYLE1">
-              <input type="checkbox" name="checkbox11" id="checkbox11" />
-              全选      &nbsp;&nbsp;<a id="addCompany" style="cursor: pointer;"><img src="${pageContext.request.contextPath}/images/add.gif" width="10" height="10" /> 添加  </a> &nbsp; <a id="delCompany"  style="cursor: pointer;"><img src="${pageContext.request.contextPath}/images/del.gif" width="10" height="10" /> 删除</a>    &nbsp;&nbsp;<a id="editCompany" style="cursor: pointer;"><img src="${pageContext.request.contextPath}/images/edit.gif" width="10" height="10" /> 编辑</a>   &nbsp;&nbsp;<a id="searchCompany" style="cursor: pointer;"><img src="${pageContext.request.contextPath}/images/add.gif" width="10" height="10" /> 查询</a>   &nbsp;</span><span class="STYLE1"> &nbsp;</span></div></td>
+            
+            <td>
+            <form name="searchForm" action="${pageContext.request.contextPath}/company/findAllCompany">
+            <div align="right"><span class="STYLE1">
+              <input type="checkbox" name="selectAll"/>
+              全选      &nbsp;&nbsp;<a id="addCompany" style="cursor: pointer;"><img src="${pageContext.request.contextPath}/images/add.gif" width="10" height="10" /> 添加  </a> &nbsp; <a id="delCompany"  style="cursor: pointer;"><img src="${pageContext.request.contextPath}/images/del.gif" width="10" height="10" /> 删除</a>    &nbsp;&nbsp;<a id="editCompany" style="cursor: pointer;"><img src="${pageContext.request.contextPath}/images/edit.gif" width="10" height="10" /> 编辑</a>   &nbsp;&nbsp;
+              公司编码：<input type="text" name="code" value="${criteria.code }"/> 公司名：<input type="text" name="name" value="${criteria.name}"/>&nbsp;&nbsp;<input type="button" name="searchBtn" value="查询"/>  &nbsp;</span><span class="STYLE1"> &nbsp;</span></div>
+              <input type="hidden" name="pageNo" value="${pageNo }"/>
+              </form>
+              </td>
           </tr>
         </table></td>
       </tr>
@@ -98,7 +105,7 @@ body {
       <c:forEach items = "${itemList}" var = "company" >
       <tr>
         <td height="20" bgcolor="#FFFFFF"><div align="center">
-          <input type="checkbox" name = "companyId" value = "${company.companyId}"/>
+          <input type="checkbox"  name = "companyId" value = "${company.companyId}"/>
         </div></td>
         <td height="20" bgcolor="#FFFFFF" class="STYLE6"><div align="center"><span class="STYLE19">${company.code}</span></div></td>
         <td height="20" bgcolor="#FFFFFF" class="STYLE19"><div align="center">${company.name}</div></td>
@@ -112,19 +119,14 @@ body {
   <tr>
     <td height="30"><table width="100%" border="0" cellspacing="0" cellpadding="0">
       <tr>
-        <td width="33%"><div align="left"><span class="STYLE22">&nbsp;&nbsp;&nbsp;&nbsp;共有<strong> 243</strong> 条记录，当前第<strong> 1</strong> 页，共 <strong>10</strong> 页</span></div></td>
+        <td width="33%"><div align="left"><span class="STYLE22"><a name="pre" style="cursor: pointer;">上一页</a>&nbsp;&nbsp;共有<strong>${totalItem}</strong> 条记录，当前第<strong> ${pageNo }</strong> 页，共 <strong>${totalPage}</strong> 页 &nbsp;&nbsp;<a name="after" style="cursor: pointer;">下一页</a></span></div></td>
         <td width="67%"><table width="312" border="0" align="right" cellpadding="0" cellspacing="0">
           <tr>
-<%--             <td width="49"><div align="center"><img src="${pageContext.request.contextPath}/images/main_54.gif" width="40" height="15" /></div></td> --%>
-<%--             <td width="49"><div align="center"><img src="${pageContext.request.contextPath}/images/main_56.gif" width="45" height="15" /></div></td> --%>
-<%--             <td width="49"><div align="center"><img src="${pageContext.request.contextPath}/images/main_58.gif" width="45" height="15" /></div></td> --%>
-<%--             <td width="49"><div align="center"><img src="${pageContext.request.contextPath}/images/main_60.gif" width="40" height="15" /></div></td> --%>
             <td width="37" class="STYLE22"><div align="center">转到</div></td>
             <td width="22"><div align="center">
-              <input type="text" name="textfield" id="textfield"  style="width:20px; height:12px; font-size:12px; border:solid 1px #7aaebd;"/>
+              <input type="text" name="goPage" style="width:20px; height:12px; font-size:12px; border:solid 1px #7aaebd;"/>
             </div></td>
             <td width="22" class="STYLE22"><div align="center">页</div></td>
-<%--             <td width="35"><img src="${pageContext.request.contextPath}/images/main_62.gif" width="26" height="15" /></td> --%>
           </tr>
         </table></td>
       </tr>
@@ -146,6 +148,79 @@ body {
 </div>
 <script type="text/javascript">
 $(function(){
+	
+	$("#delCompany").on("click", function(){
+		var ids = []
+		$("input[type='checkbox'][name='companyId']:checked").each(function(){
+			ids.push($(this).val());
+		});
+		$.ajax({
+			url:"${pageContext.request.contextPath}/company/batchDelete",
+			method:"POST",
+			data:{
+				idsStr:ids.join(","),
+			},
+			dataType:"json",
+			success:function(data){
+				if(data.code == 200){
+					alert("删除成功！");
+					$("form[name='searchForm']").submit();
+				}else{
+					alert("删除失败！");
+				}
+			}
+		}); 
+	});
+	
+	//全选
+	$("input[name='selectAll']").on("click", function(){
+		var checked = $(this)[0].checked;
+		var elements = $("input[type='checkbox'][name='companyId']");
+		var len = elements.length;
+		for(var i = 0; i < len; i++){
+			elements[i].checked = checked;
+		}
+	});
+	
+	//查询
+	$("input[name='searchBtn']").on("click", function(){
+		$("input[name='pageNo']").val(1);
+		$("form[name='searchForm']").submit();
+	});
+	
+	$("a[name='pre']").on("click", function(){
+		var pageNo = ${pageNo};
+		if(pageNo == "1"){
+			alert("已经是第一页了");
+			return false;
+		}
+		$("input[name='pageNo']").val(parseInt(pageNo) - 1);
+		$("form[name='searchForm']").submit();
+	});
+	
+	$("input[name='goPage']").on("keypress", function(e){
+		if(e.keyCode == "13"){
+			var pageNo = parseInt($(this).val());
+			var totalPage = ${totalPage};
+			if(pageNo < 1 || pageNo > totalPage){
+				alert("输入的页数超出了范围");
+				return false;
+			}
+			$("input[name='pageNo']").val(pageNo);
+			$("form[name='searchForm']").submit();
+		}
+	});
+	
+	$("a[name='after']").on("click", function(){
+		var pageNo = ${pageNo};
+		if(pageNo == "${totalPage}"){
+			alert("已经是最后一页了");
+			return false;
+		}
+		$("input[name='pageNo']").val(parseInt(pageNo) + 1);
+		$("form[name='searchForm']").submit();
+	});
+	
 	var screenwidth,screenheight,mytop,getPosLeft,getPosTop;
 	screenwidth = $(window).width();
 	screenheight = $(window).height();
@@ -232,7 +307,8 @@ $(function(){
 			success:function(data){
 				if(data.code == 200){
 					alert("删除成功！");
-					parentPoint.remove();
+					//parentPoint.remove();
+					$("form[name='searchForm']").submit();
 				}else{
 					alert("删除失败！");
 				}
@@ -273,6 +349,9 @@ $(function(){
 			}
 		});
 	});
+	
+	
+	
 	$("#edit").on("click",function(){
 		var code = $("input[name='editCode']").val().trim();
 		var name = $("input[name='editName']").val().trim();

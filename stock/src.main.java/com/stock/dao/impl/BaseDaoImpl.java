@@ -98,25 +98,38 @@ public class BaseDaoImpl<T> implements BaseDao<T>{
 	protected String createSql(String hql, QueryCriteria criteria) throws Exception{
 		if(criteria != null){
 			StringBuffer sb =  new StringBuffer(hql);
-			if(hql.indexOf("where") == -1){
-				sb.append(" where");
-			}
+			
 			Field[] fields = criteria.getClass().getDeclaredFields();
 			for(Field field : fields){
 				field.setAccessible(true);
 				String name = field.getName();
 				Object value = field.get(criteria);
+				if(value instanceof String && "".equals(((String)value).trim())){
+					value = null;
+				}
 				if(value != null){
+					if(sb.indexOf("where") == -1){
+						sb.append(" where");
+					}
 					if(name.endsWith("startDate")){
 						sb.append(" DATE_FORMAT(date,'%Y-%m-%d') >='" + value + "' and");
 					}else if(name.endsWith("endDate")){
 						sb.append(" DATE_FORMAT(date,'%Y-%m-%d') <='" + value + "' and");
 					}else{
-						sb.append(" " + name + "=" + value + " and");
+						if(value instanceof String){
+							sb.append(" " + name + "='" + value + "' and");
+						}else{
+							sb.append(" " + name + "=" + value + " and");
+						}
+						
 					}
 				}
 			}
-			return sb.substring(0, sb.lastIndexOf("and"));
+			int index = sb.lastIndexOf("and");
+			if(index != -1){
+				return sb.substring(0, index);
+			}
+			return sb.toString();
 		}else{
 			return hql;
 		}

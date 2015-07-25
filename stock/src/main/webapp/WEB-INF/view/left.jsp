@@ -77,11 +77,12 @@ body {
     <li> <a class="head">公司管理</a>
       <ul>
         <li><a href="${pageContext.request.contextPath }/company/findAllCompany" target="rightFrame">查看</a></li>
+      	<li><a href="${pageContext.request.contextPath }/toUpload" target="rightFrame">导入数据</a></li>
       </ul>
     </li>
     <li> <a class="head">交易信息</a>
       <ul>
-        <li><a href="comments.php" target="rightFrame">查看</a></li>
+        <li><a href="${pageContext.request.contextPath }/deal/findAllDeal" target="rightFrame">查看</a></li>
       </ul>
     </li>
     <li> <a class="head">友情链接管理</a>

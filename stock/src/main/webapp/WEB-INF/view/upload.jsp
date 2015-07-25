@@ -10,7 +10,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         <title>Upload a file please</title>  
     </head>  
     <body>  
-        <h1>Please upload a file</h1>  
+        <h1>公司数据上传</h1>  
         <form method="post" action="<%=basePath%>importCompany" enctype="multipart/form-data">  
             <input type="text" name="name"/>  
             <input type="file" name="file"/>  

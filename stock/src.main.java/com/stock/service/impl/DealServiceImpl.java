@@ -39,7 +39,8 @@ public class DealServiceImpl extends BaseServiceImpl<Deal> implements DealServic
 	 */
 	@Override
 	public void addDeal(Deal deal) {
-		Deal d = dealDao.findByCodeAndDate(deal.getCode(), deal.getDate()).get(0);
+		List<Deal> result = dealDao.findByCodeAndDate(deal.getCode(), deal.getDate());
+		Deal d = result.isEmpty() ? null :  result.get(0);
 		if(d != null){
 			Integer dealId = d.getDealId();
 			BeanUtils.copyProperties(deal, d, Deal.class);

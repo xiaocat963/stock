@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -21,15 +22,24 @@ public class CompanyController {
 
 	@Autowired
 	private CompanyService companyService;
+	//分页大小
+	private static final int PAGE_SIZE = 15;
 	
 	@RequestMapping(value = "/findAllCompany")
-	public ModelAndView findAllCompany(CompanyQueryCriteria criteria) {
+	public String findAllCompany(Model model,CompanyQueryCriteria criteria, Integer pageNo) {
 		
-		Map<String,List<Company>> model = new HashMap<String, List<Company>>();
 		List<Company> itemLists = new ArrayList<Company>();
-		itemLists = (List<Company>)companyService.findAll(criteria);
-		model.put("itemList", itemLists);
-		return new ModelAndView("/company",model);
+		pageNo = pageNo == null ? 1 : pageNo;
+		itemLists = (List<Company>)companyService.findAllByPage(pageNo, PAGE_SIZE, criteria);
+		int totalItem = companyService.findCountAll(criteria);
+		int totalPage = totalItem / PAGE_SIZE;
+		totalPage = totalItem % PAGE_SIZE == 0 ? totalPage : totalPage + 1 ;
+		model.addAttribute("totalItem", totalItem);
+		model.addAttribute("totalPage", totalPage);
+		model.addAttribute("itemList", itemLists);
+		model.addAttribute("pageNo", pageNo);
+		model.addAttribute("criteria", criteria);
+		return "company";
 	}
 	@RequestMapping(value = "/addCompany")
 	@ResponseBody

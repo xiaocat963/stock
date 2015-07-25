@@ -16,6 +16,7 @@ import org.apache.commons.httpclient.HttpException;
 import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.params.HttpMethodParams;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.stock.dao.CompanyDao;
@@ -27,7 +28,9 @@ import com.stock.vo.Deal;
 
 @Service("spiderServiceDailyImpl")
 public class SpiderServiceDailyImpl implements SpiderService {
-	String url = "http://hq.sinajs.cn/list=sh";
+	
+	@Value("${dailyUrl}")
+	private String url;
 
 	@Resource(name="dealService")
 	private DealService dealService;

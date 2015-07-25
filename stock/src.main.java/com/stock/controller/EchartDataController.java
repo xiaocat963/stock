@@ -32,7 +32,7 @@ public class EchartDataController {
 	
 	@RequestMapping("/echartData")
 	public void getData(HttpServletRequest request, HttpServletResponse response){
-		String dealCode = request.getParameter("dealCode");
+		/*String dealCode = request.getParameter("dealCode");
 		String startDate = request.getParameter("startDate");
 		String endDate = request.getParameter("endDate");
 			
@@ -41,12 +41,12 @@ public class EchartDataController {
 		} catch (IOException e) {
 			
 			e.printStackTrace();
+		}*/
+		List<Company> companyList = companyService.findAll(null);
+		for(int i = 1;i<companyList.size() ; i++)
+		{
+			spiderServiceDaily.getDealMessage(companyList.get(i));
 		}
-//		List<Company> companyList = companyService.findAll();
-//		for(int i = 1;i<companyList.size() ; i++)
-//		{
-//			spiderServiceDaily.getDealMessage(companyList.get(i));
-//		}
 		
 	}
 

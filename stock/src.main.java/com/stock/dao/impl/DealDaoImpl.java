@@ -30,41 +30,6 @@ public class DealDaoImpl extends BaseDaoImpl<Deal> implements DealDao{
 		return this.findByHQL(hql, code, date);
 	}
 
-	/*@Override
-	public List<Deal> findAll(QueryCriteria criteria) {
-		String hql = "from Deal";
-		try {
-			hql = createSql(hql, criteria);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return (List<Deal>)this.findByHQL(hql);
-	}*/
-
-	/*@Override
-	public int findCountAll(QueryCriteria criteria) {
-		String hql = "select count(*) from Deal";
-		try {
-			hql = createSql(hql, criteria);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return findCountByHQL(hql);
-	}*/
-
-	/*@Override
-	public List<Deal> findAllByPage(int pageNo, int pageSize, QueryCriteria criteria) {
-		String hql = "from Deal";
-		try {
-			hql = createSql(hql, criteria);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return findPageByHQL(hql, pageNo, pageSize);
-	}*/
-
-	
-	
 	public static void main(String[] args) {
 		String hql = "from Deal";
 		DealDaoImpl daoImpl = new DealDaoImpl();
