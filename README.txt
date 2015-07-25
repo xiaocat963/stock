@@ -1,1 +1,1 @@
-this is a stock analyze software£¡
+this is a stock analyze software!
